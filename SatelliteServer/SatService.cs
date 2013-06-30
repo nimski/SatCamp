@@ -76,7 +76,7 @@ namespace SatelliteServer
             return "Hello, " + name;
         }
 
-        public Bitmap Capture()
+        public byte[] Capture()
         {
             if (_camDriver.IsVideoStarted() == false)
             {
@@ -94,8 +94,11 @@ namespace SatelliteServer
 
             _captureStream.Seek(0, SeekOrigin.Begin);
             _camImage.Save(_captureStream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            Bitmap b = (Bitmap)Bitmap.FromStream(_captureStream);
-            return b;            
+            byte[] buffer = new byte[_captureStream.Length];
+            _captureStream.Read(buffer,0,(int)_captureStream.Length);
+            return buffer;
+            //Bitmap b = (Bitmap)Bitmap.FromStream(_captureStream);
+            //return b;            
         }
 
         public double[] _eulerAngles;

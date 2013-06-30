@@ -27,6 +27,6 @@ namespace SatelliteServer
         double[] GetEulerAngles();
 
         [OperationContract]
-        Bitmap Capture(); 
+        byte[] Capture(); 
     }
 }

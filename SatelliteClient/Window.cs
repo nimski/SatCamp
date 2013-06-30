@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Timers;
 using System.ServiceModel;
 using SatelliteClient.Properties;
+using System.IO;
 
 namespace SatelliteClient
 {
@@ -52,7 +53,10 @@ namespace SatelliteClient
                 this.Invoke(new Action(() =>
                 {
                     captureBn.Enabled = false;
-                    pictureBox.Image = _satService.Capture();
+                    byte[] buffer = _satService.Capture();
+                    Console.Write("Received image with " + buffer.Length + " bytes.");
+                    MemoryStream stream = new MemoryStream(buffer);
+                    pictureBox.Image = new Bitmap(stream);
                     captureBn.Enabled = true;
                 }));
             }
