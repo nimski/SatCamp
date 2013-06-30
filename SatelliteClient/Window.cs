@@ -107,5 +107,29 @@ namespace SatelliteClient
             _updateTimer.Stop();
             Settings.Default.Save();
         }
+
+        private void stabilizeCb_CheckedChanged(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new Action(() =>
+            {
+                _satService.SetStabilization(stabilizeCb.Checked);
+            }));
+        }
+
+        private void pitchTrackBar_Scroll(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new Action(() =>
+            {
+                _satService.SetServoPos(0,pitchTrackBar.Value);
+            }));
+        }
+
+        private void yawTrackBar_Scroll(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new Action(() =>
+            {
+                _satService.SetServoPos(1, yawTrackBar.Value);
+            }));
+        }
     }
 }

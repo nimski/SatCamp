@@ -11,11 +11,13 @@ using System.Timers;
 using System.ServiceModel;
 using System.Net;
 using System.Net.Sockets;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace SatelliteServer
 {
     public partial class Window : Form
     {
+        DenseMatrix Twp;
         Um6Driver _um6Driver;
         CameraDriver _cameraDriver;
         ServoDriver _servoDriver;
@@ -24,10 +26,69 @@ namespace SatelliteServer
         ushort _lastPitchVal;
         ushort _lastYawVal;
         System.Timers.Timer _updateTimer;
-        double _stabPitch, _stabYaw;
         int _stabPitchServo, _stabYawServo;
 
         const double PitchAngleCoefficient = 11.11;
+
+       DenseMatrix Cart2R(
+                            double r,
+                            double p,
+                            double q
+                            )
+        {
+            DenseMatrix R = new DenseMatrix(3,3);
+            // psi = roll, th = pitch, phi = yaw
+            double cq, cp, cr, sq, sp, sr;
+            cr = Math.Cos( r );
+            cp = Math.Cos( p );
+            cq = Math.Cos( q );
+
+            sr = Math.Sin( r );
+            sp = Math.Sin( p );
+            sq = Math.Sin( q );
+
+            R[0,0] = cp*cq;
+            R[0,1] = -cr*sq+sr*sp*cq;
+            R[0,2] = sr*sq+cr*sp*cq;
+
+            R[1,0] = cp*sq;
+            R[1,1] = cr*cq+sr*sp*sq;
+            R[1,2] = -sr*cq+cr*sp*sq;
+
+            R[2,0] = -sp;
+            R[2,1] = sr*cp;
+            R[2,2] = cr*cp;
+            return R;
+        }
+
+        
+        DenseVector GLR2Cart(
+            DenseMatrix R
+            )
+        {
+            DenseVector rpq = new DenseVector(3);
+            // roll
+            rpq[0] = Math.Atan2( R[2,1], R[2,2] );
+ 
+            // pitch
+            double det = -R[2,0] * R[2,0] + 1.0;
+            if (det <= 0) {
+                if (R[2,0] > 0){
+                    rpq[1] = -Math.PI / 2.0;
+                }
+                else{
+                    rpq[1] = Math.PI / 2.0;
+                }
+            }
+            else{
+                rpq[1] = -Math.Asin(R[2,0]);
+            }
+ 
+            // yaw
+            rpq[2] = Math.Atan2(R[1,0], R[0,0]);
+ 
+            return rpq;
+        }
 
         public Window()
         {
@@ -55,8 +116,6 @@ namespace SatelliteServer
                                    "net.tcp://localhost:8000");
             _host.Open();
 
-            _stabPitch = 0;
-            _stabYaw = 0;
             _stabPitchServo = 6000;
             _stabYawServo = 6000; 
         }
@@ -111,12 +170,18 @@ namespace SatelliteServer
                 // do stabilization if necessary
                 if (stabilizeCb.Checked)
                 {
-                    // calculate angle differences
-                    double dPitch = _um6Driver.Angles[1] - _stabPitch;
-                    pitchTrackBar.Value = _stabPitchServo - (int)(dPitch * PitchAngleCoefficient);
+                    DenseMatrix Twp2 = Cart2R(_um6Driver.Angles[0], _um6Driver.Angles[1], _um6Driver.Angles[2]);
+                    DenseMatrix Tp1p2 = (DenseMatrix)Twp.TransposeThisAndMultiply(Twp2);
+                    DenseVector rpq = GLR2Cart(Tp1p2);
 
-                    double dYaw = _um6Driver.Angles[2] - _stabYaw;
-                    yawTrackBar.Value = _stabYawServo - (int)(dYaw * PitchAngleCoefficient);
+                    pitchTrackBar.Value = _stabPitchServo - (int)(rpq[1] * PitchAngleCoefficient);
+                    yawTrackBar.Value = _stabYawServo - (int)(rpq[2] * PitchAngleCoefficient);
+                    // calculate angle differences
+                    //double dPitch = _um6Driver.Angles[1] - _stabPitch;
+                    //pitchTrackBar.Value = _stabPitchServo - (int)(dPitch * PitchAngleCoefficient);
+
+                    //double dYaw = _um6Driver.Angles[2] - _stabYaw;
+                    //yawTrackBar.Value = _stabYawServo - (int)(dYaw * PitchAngleCoefficient);
                 }
             }));           
         }
@@ -181,8 +246,7 @@ namespace SatelliteServer
         {
             if (stabilizeCb.Checked == true)
             {
-                _stabPitch = _um6Driver.Angles[1];
-                _stabYaw = _um6Driver.Angles[2];
+                Twp = Cart2R(_um6Driver.Angles[0], _um6Driver.Angles[1], _um6Driver.Angles[2]);
                 _stabPitchServo = pitchTrackBar.Value;
                 _stabYawServo = yawTrackBar.Value;
             }

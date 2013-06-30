@@ -150,6 +150,7 @@
             this.stabilizeCb.TabIndex = 5;
             this.stabilizeCb.Text = "Stabilize";
             this.stabilizeCb.UseVisualStyleBackColor = true;
+            this.stabilizeCb.CheckedChanged += new System.EventHandler(this.stabilizeCb_CheckedChanged);
             // 
             // yawTrackBar
             // 
@@ -167,6 +168,7 @@
             this.yawTrackBar.TabIndex = 4;
             this.yawTrackBar.TickFrequency = 100;
             this.yawTrackBar.Value = 6000;
+            this.yawTrackBar.Scroll += new System.EventHandler(this.yawTrackBar_Scroll);
             // 
             // pitchTrackBar
             // 
@@ -184,6 +186,7 @@
             this.pitchTrackBar.TabIndex = 3;
             this.pitchTrackBar.TickFrequency = 100;
             this.pitchTrackBar.Value = 6000;
+            this.pitchTrackBar.Scroll += new System.EventHandler(this.pitchTrackBar_Scroll);
             // 
             // label4
             // 
