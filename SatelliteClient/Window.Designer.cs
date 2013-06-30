@@ -43,6 +43,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.captureBn = new System.Windows.Forms.Button();
+            this.ipTb = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.connectBn = new System.Windows.Forms.Button();
             this.groupBoxOrientation.SuspendLayout();
             this.groupBoxServos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yawTrackBar)).BeginInit();
@@ -131,7 +134,7 @@
             this.groupBoxServos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBoxServos.Name = "groupBoxServos";
             this.groupBoxServos.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBoxServos.Size = new System.Drawing.Size(491, 119);
+            this.groupBoxServos.Size = new System.Drawing.Size(696, 119);
             this.groupBoxServos.TabIndex = 1;
             this.groupBoxServos.TabStop = false;
             this.groupBoxServos.Text = "Servos";
@@ -140,7 +143,7 @@
             // 
             this.stabilizeCb.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.stabilizeCb.AutoSize = true;
-            this.stabilizeCb.Location = new System.Drawing.Point(401, 92);
+            this.stabilizeCb.Location = new System.Drawing.Point(606, 92);
             this.stabilizeCb.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.stabilizeCb.Name = "stabilizeCb";
             this.stabilizeCb.Size = new System.Drawing.Size(83, 21);
@@ -159,7 +162,7 @@
             this.yawTrackBar.Maximum = 8000;
             this.yawTrackBar.Minimum = 4000;
             this.yawTrackBar.Name = "yawTrackBar";
-            this.yawTrackBar.Size = new System.Drawing.Size(433, 36);
+            this.yawTrackBar.Size = new System.Drawing.Size(638, 36);
             this.yawTrackBar.SmallChange = 10;
             this.yawTrackBar.TabIndex = 4;
             this.yawTrackBar.TickFrequency = 100;
@@ -176,7 +179,7 @@
             this.pitchTrackBar.Maximum = 8000;
             this.pitchTrackBar.Minimum = 4000;
             this.pitchTrackBar.Name = "pitchTrackBar";
-            this.pitchTrackBar.Size = new System.Drawing.Size(432, 36);
+            this.pitchTrackBar.Size = new System.Drawing.Size(637, 36);
             this.pitchTrackBar.SmallChange = 10;
             this.pitchTrackBar.TabIndex = 3;
             this.pitchTrackBar.TickFrequency = 100;
@@ -208,14 +211,14 @@
             this.pictureBox.Location = new System.Drawing.Point(12, 137);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(676, 434);
+            this.pictureBox.Size = new System.Drawing.Size(881, 517);
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
             // captureBn
             // 
             this.captureBn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.captureBn.Location = new System.Drawing.Point(576, 578);
+            this.captureBn.Location = new System.Drawing.Point(781, 661);
             this.captureBn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.captureBn.Name = "captureBn";
             this.captureBn.Size = new System.Drawing.Size(112, 30);
@@ -224,11 +227,43 @@
             this.captureBn.UseVisualStyleBackColor = true;
             this.captureBn.Click += new System.EventHandler(this.captureBn_Click);
             // 
+            // ipTb
+            // 
+            this.ipTb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ipTb.Location = new System.Drawing.Point(39, 665);
+            this.ipTb.Name = "ipTb";
+            this.ipTb.Size = new System.Drawing.Size(201, 22);
+            this.ipTb.TabIndex = 4;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 668);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(20, 17);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "IP";
+            // 
+            // connectBn
+            // 
+            this.connectBn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.connectBn.Location = new System.Drawing.Point(249, 661);
+            this.connectBn.Name = "connectBn";
+            this.connectBn.Size = new System.Drawing.Size(112, 30);
+            this.connectBn.TabIndex = 6;
+            this.connectBn.Text = "Connect";
+            this.connectBn.UseVisualStyleBackColor = true;
+            this.connectBn.Click += new System.EventHandler(this.connectBn_Click);
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 619);
+            this.ClientSize = new System.Drawing.Size(905, 702);
+            this.Controls.Add(this.connectBn);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.ipTb);
             this.Controls.Add(this.captureBn);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.groupBoxServos);
@@ -236,6 +271,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Window";
             this.Text = "Client";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Window_FormClosing);
             this.Load += new System.EventHandler(this.Window_Load);
             this.groupBoxOrientation.ResumeLayout(false);
             this.groupBoxOrientation.PerformLayout();
@@ -245,6 +281,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pitchTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -265,6 +302,9 @@
         private System.Windows.Forms.CheckBox stabilizeCb;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button captureBn;
+        private System.Windows.Forms.TextBox ipTb;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button connectBn;
 
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.Drawing;
 using System.Threading;
+using System.IO;
 
 namespace SatelliteServer
 {
@@ -48,10 +49,25 @@ namespace SatelliteServer
             //{
             _camEvent.WaitOne();
 
-            Bitmap b = new Bitmap(_camImage.Width,_camImage.Height);
-            Graphics g = Graphics.FromImage(b);
-            g.DrawImage(_camImage, new Point(0, 0));
-            g.Dispose();
+            if (_captureStream == null)
+            {
+                _captureStream = new MemoryStream();
+            }
+
+            _captureStream.Seek(0, SeekOrigin.Begin);
+            _camImage.Save(_captureStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            //if (_captureBmp == null)
+            //{
+            //    //_captureBmp = new Bitmap(m_uc480.GetDisplayWidth(), m_uc480.GetDisplayHeight());
+            //    _captureBmp = (Bitmap)Bitmap.FromStream(_captureStream);
+            //}
+            Bitmap b = (Bitmap)Bitmap.FromStream(_captureStream);
+
+            //Bitmap b = new Bitmap(_camImage.Width,_camImage.Height);
+            //Graphics g = Graphics.FromImage(b);
+            //g.DrawImage(_camImage, new Point(0, 0));
+            //g.Dispose();
 
             return b;
             //}else{
@@ -60,6 +76,7 @@ namespace SatelliteServer
             
         }
 
+        MemoryStream _captureStream;
         Bitmap _camImage;
         AutoResetEvent _camEvent;
         CameraDriver _camDriver;        

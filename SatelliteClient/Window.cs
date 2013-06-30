@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
 using System.ServiceModel;
+using SatelliteClient.Properties;
 
 namespace SatelliteClient
 {
@@ -20,17 +21,7 @@ namespace SatelliteClient
             _updateTimer = new System.Timers.Timer(50);
             _updateTimer.Elapsed += _updateTimer_Elapsed;
 
-            // initialize the client
-            NetTcpBinding binding = new NetTcpBinding();
-            binding.MaxReceivedMessageSize = 20000000;
-            binding.MaxBufferPoolSize = 20000000;
-            binding.MaxBufferSize = 20000000;
-            binding.Security.Mode = SecurityMode.None;
-            _scf = new ChannelFactory<SatelliteServer.ISatService>(
-                        binding,
-                        "net.tcp://192.168.1.137:8000");
-           
-            _satService = _scf.CreateChannel();
+            
 
             //while (true)
             //{
@@ -77,9 +68,44 @@ namespace SatelliteClient
         private void Window_Load(object sender, EventArgs e)
         {
             _updateTimer.Start();
+            ipTb.Text = Settings.Default["IP"].ToString();
         }
 
         ChannelFactory<SatelliteServer.ISatService> _scf;
         SatelliteServer.ISatService _satService;
+
+        private void connectBn_Click(object sender, EventArgs e)
+        {
+            Settings.Default["IP"] = ipTb.Text;
+            try
+            {
+                // initialize the client
+                NetTcpBinding binding = new NetTcpBinding();
+                binding.MaxReceivedMessageSize = 20000000;
+                binding.MaxBufferPoolSize = 20000000;
+                binding.MaxBufferSize = 20000000;
+                binding.Security.Mode = SecurityMode.None;
+                _scf = new ChannelFactory<SatelliteServer.ISatService>(
+                            binding,
+                            "net.tcp://" + ipTb.Text + ":8000");
+                //"net.tcp://192.168.1.137:8000");
+
+                _satService = _scf.CreateChannel();
+            }
+            catch (Exception ex)
+            {
+                connectBn.Enabled = true;
+                MessageBox.Show("Failed to connect to server: " + ex.Message);
+                return;
+            }
+
+            connectBn.Enabled = false;
+        }
+
+        private void Window_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _updateTimer.Stop();
+            Settings.Default.Save();
+        }
     }
 }

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Drawing;
-using System.IO;
 
 namespace SatelliteServer
 {
@@ -217,24 +216,13 @@ namespace SatelliteServer
                                         System.Drawing.Imaging.PixelFormat.Format32bppRgb,
                                         m_pCurMem))
                 {
-                    if (_captureStream == null)
+                    if (_captureBmp == null)
                     {
-                        _captureStream = new MemoryStream();
+                        _captureBmp = new Bitmap(m_uc480.GetDisplayWidth(), m_uc480.GetDisplayHeight());
                     }
-
-                    _captureStream.Seek(0, SeekOrigin.Begin);
-                    bmp.Save(_captureStream, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                    //if (_captureBmp == null)
-                    //{
-                    //    //_captureBmp = new Bitmap(m_uc480.GetDisplayWidth(), m_uc480.GetDisplayHeight());
-                    //    _captureBmp = (Bitmap)Bitmap.FromStream(_captureStream);
-                    //}
-                    _captureBmp = (Bitmap)Bitmap.FromStream(_captureStream);
-                    //Graphics g = Graphics.FromImage(_captureBmp);
-                    //g.DrawImage(bmp, new Point(0, 0));
-                    //g.Dispose();
-                    
+                    Graphics g = Graphics.FromImage(_captureBmp);
+                    g.DrawImage(bmp, new Point(0, 0));
+                    g.Dispose();
 
                     OnCameraCapture(_captureBmp);
                 }
@@ -281,7 +269,6 @@ namespace SatelliteServer
                 CameraCapture(this, b);
         }
 
-        MemoryStream _captureStream;
         Bitmap _captureBmp;
         private bool m_bIsStarted;
         private int	m_RenderMode;
