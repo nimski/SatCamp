@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
 using System.ServiceModel;
+using System.Net;
+using System.Net.Sockets;
 
 namespace SatelliteServer
 {
@@ -107,12 +109,28 @@ namespace SatelliteServer
         private void Window_Load(object sender, EventArgs e)
         {
             _updateTimer.Start();
+            GetIpAddress();
         }
 
         private void Window_FormClosing(object sender, FormClosingEventArgs e)
         {
             _updateTimer.Stop();
             _cameraDriver.StopVideo();
+        }
+
+        public void GetIpAddress()
+        {
+            IPHostEntry host;
+            string localIP = "?";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                }
+            }
+            ipLabel.Text = "IP Address: " + localIP;
         }
         
     }

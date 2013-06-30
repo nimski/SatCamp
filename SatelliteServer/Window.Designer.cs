@@ -43,6 +43,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.captureBn = new System.Windows.Forms.Button();
+            this.ipLabel = new System.Windows.Forms.Label();
             this.groupBoxOrientation.SuspendLayout();
             this.groupBoxServos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yawTrackBar)).BeginInit();
@@ -224,11 +225,21 @@
             this.captureBn.UseVisualStyleBackColor = true;
             this.captureBn.Click += new System.EventHandler(this.captureBn_Click);
             // 
+            // ipLabel
+            // 
+            this.ipLabel.AutoSize = true;
+            this.ipLabel.Location = new System.Drawing.Point(13, 578);
+            this.ipLabel.Name = "ipLabel";
+            this.ipLabel.Size = new System.Drawing.Size(80, 17);
+            this.ipLabel.TabIndex = 4;
+            this.ipLabel.Text = "IP Address:";
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 619);
+            this.Controls.Add(this.ipLabel);
             this.Controls.Add(this.captureBn);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.groupBoxServos);
@@ -246,6 +257,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pitchTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -266,6 +278,7 @@
         private System.Windows.Forms.CheckBox stabilizeCb;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button captureBn;
+        private System.Windows.Forms.Label ipLabel;
 
     }
 }
