@@ -36,12 +36,18 @@ namespace SatelliteServer
             m_RenderMode = uc480.IS_RENDER_NORMAL;
 	    }
 
-        public void Capture()
+        public bool Capture()
         {
+            int res = m_uc480.FreezeVideo(uc480.IS_WAIT);
             // capture a single image
-            if (m_uc480.FreezeVideo(uc480.IS_WAIT) != uc480.IS_SUCCESS)
+            if (res != uc480.IS_SUCCESS)
             {
-                throw new Exception("Error freeze image");
+                Console.WriteLine("Failed to capture image. Error code " + res );
+                return false; // throw new Exception("Error freeze image");
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -133,10 +139,33 @@ namespace SatelliteServer
             //    DisplayWindow.Image.Dispose();
             //    DisplayWindow.Image = null;
             //}
-
+            //m_uc480.SetExternalTrigger(uc480.IS_SET_TRIG_SOFTWARE);
+            //m_uc480.CaptureVideo(uc480.IS_WAIT);
             // capture a single image
             m_uc480.FreezeVideo(uc480.IS_WAIT);
+            m_bIsStarted = false;
             //Refresh();
+        }
+
+        public void StartVideo()
+        {
+            if (m_uc480.CaptureVideo(uc480.IS_WAIT) == uc480.IS_SUCCESS)
+            {
+                m_bIsStarted = true;
+            }
+        }
+
+        public bool IsVideoStarted()
+        {
+            return m_bIsStarted;
+        }
+
+        public void StopVideo()
+        {
+            if (m_uc480.FreezeVideo(uc480.IS_WAIT) == uc480.IS_SUCCESS)
+            {
+                m_bIsStarted = false;
+            }
         }
 
         public void HandleMessage(int message, long lParam, long wParam)
@@ -180,18 +209,25 @@ namespace SatelliteServer
                 int width = 0, height = 0, bitspp = 0, pitch = 0, bytespp = 0;
                 m_uc480.InquireImageMem(m_pCurMem, GetImageID(m_pCurMem), ref width, ref height, ref bitspp, ref pitch);
                 bytespp = (bitspp + 1) / 8;
-                
-                Bitmap bmp = new Bitmap(m_uc480.GetDisplayWidth(),
+
+                using (Bitmap bmp = new Bitmap(m_uc480.GetDisplayWidth(),
                                         m_uc480.GetDisplayHeight(),
                                         pitch,
                                         System.Drawing.Imaging.PixelFormat.Format32bppRgb,
-                                        m_pCurMem);
-                Bitmap bmp2 = new Bitmap(m_uc480.GetDisplayWidth(), m_uc480.GetDisplayHeight());
-                Graphics g = Graphics.FromImage(bmp2);
-                g.DrawImage(bmp, new Point(0, 0));
-                g.Dispose();
+                                        m_pCurMem))
+                {
+                    if (_captureBmp == null)
+                    {
+                        _captureBmp = new Bitmap(m_uc480.GetDisplayWidth(), m_uc480.GetDisplayHeight());
+                    }
+                    Graphics g = Graphics.FromImage(_captureBmp);
+                    g.DrawImage(bmp, new Point(0, 0));
+                    g.Dispose();
 
-                OnCameraCapture(bmp2);
+                    OnCameraCapture(_captureBmp);
+                }
+
+                
 
                 //m_uc480.RenderBitmap(nLastID, (int)m_PictureBoxHwnd, m_RenderMode);
 
@@ -233,6 +269,8 @@ namespace SatelliteServer
                 CameraCapture(this, b);
         }
 
+        Bitmap _captureBmp;
+        private bool m_bIsStarted;
         private int	m_RenderMode;
         private IntPtr m_pCurMem;
         private uc480 m_uc480;
