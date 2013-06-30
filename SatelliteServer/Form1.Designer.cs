@@ -58,58 +58,66 @@
             this.groupBoxOrientation.Controls.Add(this.label3);
             this.groupBoxOrientation.Controls.Add(this.label2);
             this.groupBoxOrientation.Controls.Add(this.label1);
-            this.groupBoxOrientation.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxOrientation.Location = new System.Drawing.Point(9, 10);
+            this.groupBoxOrientation.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxOrientation.Name = "groupBoxOrientation";
-            this.groupBoxOrientation.Size = new System.Drawing.Size(180, 119);
+            this.groupBoxOrientation.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxOrientation.Size = new System.Drawing.Size(135, 97);
             this.groupBoxOrientation.TabIndex = 0;
             this.groupBoxOrientation.TabStop = false;
             this.groupBoxOrientation.Text = "Orientation";
             // 
             // tbYaw
             // 
-            this.tbYaw.Location = new System.Drawing.Point(74, 81);
+            this.tbYaw.Location = new System.Drawing.Point(56, 66);
+            this.tbYaw.Margin = new System.Windows.Forms.Padding(2);
             this.tbYaw.Name = "tbYaw";
-            this.tbYaw.Size = new System.Drawing.Size(100, 22);
+            this.tbYaw.Size = new System.Drawing.Size(76, 20);
             this.tbYaw.TabIndex = 5;
             // 
             // tbPitch
             // 
-            this.tbPitch.Location = new System.Drawing.Point(74, 51);
+            this.tbPitch.Location = new System.Drawing.Point(56, 41);
+            this.tbPitch.Margin = new System.Windows.Forms.Padding(2);
             this.tbPitch.Name = "tbPitch";
-            this.tbPitch.Size = new System.Drawing.Size(100, 22);
+            this.tbPitch.Size = new System.Drawing.Size(76, 20);
             this.tbPitch.TabIndex = 4;
             // 
             // tbRoll
             // 
-            this.tbRoll.Location = new System.Drawing.Point(74, 22);
+            this.tbRoll.Location = new System.Drawing.Point(56, 18);
+            this.tbRoll.Margin = new System.Windows.Forms.Padding(2);
             this.tbRoll.Name = "tbRoll";
-            this.tbRoll.Size = new System.Drawing.Size(100, 22);
+            this.tbRoll.Size = new System.Drawing.Size(76, 20);
             this.tbRoll.TabIndex = 3;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 84);
+            this.label3.Location = new System.Drawing.Point(5, 68);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 17);
+            this.label3.Size = new System.Drawing.Size(28, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "Yaw";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 54);
+            this.label2.Location = new System.Drawing.Point(5, 44);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 17);
+            this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Pitch";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 22);
+            this.label1.Location = new System.Drawing.Point(5, 18);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 17);
+            this.label1.Size = new System.Drawing.Size(25, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Roll";
             // 
@@ -122,9 +130,11 @@
             this.groupBoxServos.Controls.Add(this.pitchTrackBar);
             this.groupBoxServos.Controls.Add(this.label4);
             this.groupBoxServos.Controls.Add(this.label5);
-            this.groupBoxServos.Location = new System.Drawing.Point(198, 12);
+            this.groupBoxServos.Location = new System.Drawing.Point(148, 10);
+            this.groupBoxServos.Margin = new System.Windows.Forms.Padding(2);
             this.groupBoxServos.Name = "groupBoxServos";
-            this.groupBoxServos.Size = new System.Drawing.Size(490, 119);
+            this.groupBoxServos.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBoxServos.Size = new System.Drawing.Size(368, 97);
             this.groupBoxServos.TabIndex = 1;
             this.groupBoxServos.TabStop = false;
             this.groupBoxServos.Text = "Servos";
@@ -133,9 +143,10 @@
             // 
             this.stabilizeCb.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.stabilizeCb.AutoSize = true;
-            this.stabilizeCb.Location = new System.Drawing.Point(401, 92);
+            this.stabilizeCb.Location = new System.Drawing.Point(298, 75);
+            this.stabilizeCb.Margin = new System.Windows.Forms.Padding(2);
             this.stabilizeCb.Name = "stabilizeCb";
-            this.stabilizeCb.Size = new System.Drawing.Size(83, 21);
+            this.stabilizeCb.Size = new System.Drawing.Size(65, 17);
             this.stabilizeCb.TabIndex = 5;
             this.stabilizeCb.Text = "Stabilize";
             this.stabilizeCb.UseVisualStyleBackColor = true;
@@ -146,10 +157,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.yawTrackBar.AutoSize = false;
             this.yawTrackBar.LargeChange = 10;
-            this.yawTrackBar.Location = new System.Drawing.Point(51, 50);
+            this.yawTrackBar.Location = new System.Drawing.Point(38, 41);
+            this.yawTrackBar.Margin = new System.Windows.Forms.Padding(2);
             this.yawTrackBar.Maximum = 100;
             this.yawTrackBar.Name = "yawTrackBar";
-            this.yawTrackBar.Size = new System.Drawing.Size(433, 36);
+            this.yawTrackBar.Size = new System.Drawing.Size(325, 29);
             this.yawTrackBar.TabIndex = 4;
             this.yawTrackBar.TickFrequency = 10;
             this.yawTrackBar.Value = 50;
@@ -160,10 +172,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pitchTrackBar.AutoSize = false;
             this.pitchTrackBar.LargeChange = 10;
-            this.pitchTrackBar.Location = new System.Drawing.Point(52, 15);
+            this.pitchTrackBar.Location = new System.Drawing.Point(39, 12);
+            this.pitchTrackBar.Margin = new System.Windows.Forms.Padding(2);
             this.pitchTrackBar.Maximum = 100;
             this.pitchTrackBar.Name = "pitchTrackBar";
-            this.pitchTrackBar.Size = new System.Drawing.Size(432, 36);
+            this.pitchTrackBar.Size = new System.Drawing.Size(324, 29);
             this.pitchTrackBar.TabIndex = 3;
             this.pitchTrackBar.TickFrequency = 10;
             this.pitchTrackBar.Value = 50;
@@ -171,18 +184,20 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 54);
+            this.label4.Location = new System.Drawing.Point(4, 44);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(34, 17);
+            this.label4.Size = new System.Drawing.Size(28, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Yaw";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 25);
+            this.label5.Location = new System.Drawing.Point(4, 20);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(39, 17);
+            this.label5.Size = new System.Drawing.Size(31, 13);
             this.label5.TabIndex = 1;
             this.label5.Text = "Pitch";
             // 
@@ -191,17 +206,19 @@
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox.Location = new System.Drawing.Point(12, 137);
+            this.pictureBox.Location = new System.Drawing.Point(9, 111);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(676, 435);
+            this.pictureBox.Size = new System.Drawing.Size(507, 353);
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
             // captureBn
             // 
-            this.captureBn.Location = new System.Drawing.Point(576, 578);
+            this.captureBn.Location = new System.Drawing.Point(432, 470);
+            this.captureBn.Margin = new System.Windows.Forms.Padding(2);
             this.captureBn.Name = "captureBn";
-            this.captureBn.Size = new System.Drawing.Size(112, 29);
+            this.captureBn.Size = new System.Drawing.Size(84, 24);
             this.captureBn.TabIndex = 3;
             this.captureBn.Text = "Capture";
             this.captureBn.UseVisualStyleBackColor = true;
@@ -209,15 +226,17 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 619);
+            this.ClientSize = new System.Drawing.Size(525, 503);
             this.Controls.Add(this.captureBn);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.groupBoxServos);
             this.Controls.Add(this.groupBoxOrientation);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBoxOrientation.ResumeLayout(false);
             this.groupBoxOrientation.PerformLayout();
             this.groupBoxServos.ResumeLayout(false);

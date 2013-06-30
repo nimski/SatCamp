@@ -75,18 +75,24 @@ namespace SatelliteServer
                             bValid = true;
                         }
                     }
-
-                    //augment the number of bytes read
-                    nBytes -= nStartOffset;
+                    
                 
                     if (bValid == true)
                     {
+                        //augment the number of bytes read
+                        nBytes -= nStartOffset;
+
+                        Array.Copy(buffer, nStartOffset, buffer, 0, (buffer.Length - nStartOffset));
+                        nStartOffset = 0;
+
+                        
+
                         //now read the length byte
                         bData = (buffer[nStartOffset+3] & 0x80) != 0;
                         if (bData)
                         {
                             bBatch = (buffer[nStartOffset+3] & 0x40) != 0;
-                            nDataLength = (((int)buffer[nStartOffset+3] >> 3) & 0x0F);
+                            nDataLength = (((int)buffer[nStartOffset+3] >> 2) & 0x0F);
                             if (bBatch)
                             {
                                 nDataLength *= 4;
@@ -109,7 +115,7 @@ namespace SatelliteServer
                         if (bData && nBytes >= nTotalLength)
                         {
                             //extract the data
-                            Console.WriteLine("Received " + nDataLength.ToString() + " data bytes at address " + nAddress.ToString() + ". Discarding " + (nBytes - nTotalLength).ToString() + " bytes.");
+                             Console.WriteLine("Received " + nDataLength.ToString() + " data bytes at address " + nAddress.ToString() + ". Discarding " + (nBytes - nTotalLength).ToString() + " bytes.");
 
                             //now depending on the address, set some things
                             switch (nAddress)
@@ -120,15 +126,17 @@ namespace SatelliteServer
                                     byte[] reg2 = buffer.Skip(nStartOffset + 5+4).Take(4).ToArray();
                                     Array.Reverse(reg1);
                                     Array.Reverse(reg2);
-                                    int nPitch = BitConverter.ToUInt16(reg1, 0);
-                                    int nRoll = BitConverter.ToUInt16(reg1, 2);
-                                    int nYaw = BitConverter.ToUInt16(reg2, 2);
+                                    int nPitch = BitConverter.ToInt16(reg1, 0);
+                                    int nRoll = BitConverter.ToInt16(reg1, 2);
+                                    int nYaw = BitConverter.ToInt16(reg2, 2);
                                     lock (this)
                                     {
                                         _dAngles[0] = (double)nRoll * Angle_Coefficient;
                                         _dAngles[1] = (double)nPitch * Angle_Coefficient;
                                         _dAngles[2] = (double)nYaw * Angle_Coefficient;
                                     }
+
+                                    Console.WriteLine("Received euler angles: " + _dAngles[0] + " " + _dAngles[1] + " " + _dAngles[2]);
                                     break;
 
                                 case Address_Euler_Temp:

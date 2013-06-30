@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatelliteServer", "SatelliteServer\SatelliteServer.csproj", "{B2982F78-266C-4933-8902-D9686D810F8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatelliteServer", "SatelliteServer.csproj", "{B2982F78-266C-4933-8902-D9686D810F8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

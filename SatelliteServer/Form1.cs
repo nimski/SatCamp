@@ -16,17 +16,16 @@ namespace SatelliteServer
         public Form1()
         {
             InitializeComponent();
-            //_um6Driver = new Um6Driver("COM7", 115200);
-            //_um6Driver.Init();
-            //_updateTimer = new System.Timers.Timer(50);
-            //_updateTimer.Elapsed += _updateTimer_Elapsed;
-            //_updateTimer.Start();
+            _um6Driver = new Um6Driver("COM1", 115200);
+            _um6Driver.Init();
+            _updateTimer = new System.Timers.Timer(50);
+            _updateTimer.Elapsed += _updateTimer_Elapsed;           
             _cameraDriver = new CameraDriver(this.Handle.ToInt64());
             _cameraDriver.Init(pictureBox.Handle.ToInt64());
             _cameraDriver.CameraCapture += _cameraDriver_CameraCapture;
         }
 
-        
+
 
         void _updateTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -69,6 +68,10 @@ namespace SatelliteServer
         CameraDriver _cameraDriver;
         System.Timers.Timer _updateTimer;
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            _updateTimer.Start();
+        }
         
     }
 }
