@@ -115,7 +115,7 @@ namespace SatelliteServer
                         if (bData && nBytes >= nTotalLength)
                         {
                             //extract the data
-                             Console.WriteLine("Received " + nDataLength.ToString() + " data bytes at address " + nAddress.ToString() + ". Discarding " + (nBytes - nTotalLength).ToString() + " bytes.");
+                             //Console.WriteLine("Received " + nDataLength.ToString() + " data bytes at address " + nAddress.ToString() + ". Discarding " + (nBytes - nTotalLength).ToString() + " bytes.");
 
                             //now depending on the address, set some things
                             switch (nAddress)
@@ -136,7 +136,7 @@ namespace SatelliteServer
                                         _dAngles[2] = (double)nYaw * Angle_Coefficient;
                                     }
 
-                                    Console.WriteLine("Received euler angles: " + _dAngles[0] + " " + _dAngles[1] + " " + _dAngles[2]);
+                                    //Console.WriteLine("Received euler angles: " + _dAngles[0] + " " + _dAngles[1] + " " + _dAngles[2]);
                                     break;
 
                                 case Address_Euler_Temp:

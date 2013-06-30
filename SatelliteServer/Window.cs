@@ -170,11 +170,13 @@ namespace SatelliteServer
                 // do stabilization if necessary
                 if (stabilizeCb.Checked)
                 {
-                    DenseMatrix Twp2 = Cart2R(_um6Driver.Angles[0], _um6Driver.Angles[1], _um6Driver.Angles[2]);
+                    DenseMatrix Twp2 = Cart2R(_um6Driver.Angles[0] * Math.PI / 180.0,
+                                              _um6Driver.Angles[1] * Math.PI / 180.0,
+                                              _um6Driver.Angles[2] * Math.PI / 180.0);
                     DenseMatrix Tp1p2 = (DenseMatrix)Twp.TransposeThisAndMultiply(Twp2);
-                    DenseVector rpq = GLR2Cart(Tp1p2);
+                    DenseVector rpq = GLR2Cart(Tp1p2) * 180.0 / Math.PI;
 
-                    pitchTrackBar.Value = _stabPitchServo - (int)(rpq[1] * PitchAngleCoefficient);
+                    pitchTrackBar.Value = _stabPitchServo - (int)(rpq[0] * PitchAngleCoefficient);
                     yawTrackBar.Value = _stabYawServo - (int)(rpq[2] * PitchAngleCoefficient);
                     // calculate angle differences
                     //double dPitch = _um6Driver.Angles[1] - _stabPitch;
@@ -246,7 +248,9 @@ namespace SatelliteServer
         {
             if (stabilizeCb.Checked == true)
             {
-                Twp = Cart2R(_um6Driver.Angles[0], _um6Driver.Angles[1], _um6Driver.Angles[2]);
+                Twp = Cart2R(_um6Driver.Angles[0] * Math.PI / 180.0,
+                             _um6Driver.Angles[1] * Math.PI / 180.0,
+                             _um6Driver.Angles[2] * Math.PI / 180.0);
                 _stabPitchServo = pitchTrackBar.Value;
                 _stabYawServo = yawTrackBar.Value;
             }
