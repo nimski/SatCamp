@@ -124,7 +124,8 @@ namespace SatelliteServer
 
         void _updateTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            this.BeginInvoke(new Action(() =>
+            _updateTimer.Enabled = false;
+            this.Invoke(new Action(() =>
             {
                 if (_um6Driver != null)
                 {
@@ -188,7 +189,8 @@ namespace SatelliteServer
                     //double dYaw = _um6Driver.Angles[2] - _stabYaw;
                     //yawTrackBar.Value = _stabYawServo - (int)(dYaw * PitchAngleCoefficient);
                 }
-            }));           
+            }));
+            _updateTimer.Enabled = true;
         }
 
         private void captureBn_Click(object sender, EventArgs e)
@@ -222,7 +224,10 @@ namespace SatelliteServer
 
         private void Window_Load(object sender, EventArgs e)
         {
-            _updateTimer.Start();
+            if (_updateTimer != null)
+            {
+                _updateTimer.Start();
+            }
             GetIpAddress();
         }
 

@@ -97,8 +97,8 @@ namespace SatelliteServer
                 // If an arbitrary AOI is supported -> take maximum sensor size
                 if (bAOISupported)
                 {
-                    x = 640;// sensorInfo.nMaxWidth;
-                    y = 480;// sensorInfo.nMaxHeight;
+                    x = 800;// sensorInfo.nMaxWidth;
+                    y = 600;// sensorInfo.nMaxHeight;
                 }
                 // Take the image size of the current image format
                 else
@@ -149,6 +149,8 @@ namespace SatelliteServer
 
         public void StartVideo()
         {
+            double fps = 5.0;
+            m_uc480.SetFrameRate(5.0, ref fps);
             if (m_uc480.CaptureVideo(uc480.IS_WAIT) == uc480.IS_SUCCESS)
             {
                 m_bIsStarted = true;

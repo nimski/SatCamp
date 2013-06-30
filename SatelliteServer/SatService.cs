@@ -28,6 +28,7 @@ namespace SatelliteServer
                 _servoPos[ii] = 6000;
                 _servoChanged[ii] = false;
             }
+            _eulerAngles = new double[3];
         }
 
         public void SetStabilization(bool active)
