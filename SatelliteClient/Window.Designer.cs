@@ -46,6 +46,7 @@
             this.ipTb = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.connectBn = new System.Windows.Forms.Button();
+            this.videoBn = new System.Windows.Forms.Button();
             this.groupBoxOrientation.SuspendLayout();
             this.groupBoxServos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.yawTrackBar)).BeginInit();
@@ -216,7 +217,6 @@
             this.pictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(881, 519);
-            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
@@ -228,7 +228,7 @@
             this.captureBn.Name = "captureBn";
             this.captureBn.Size = new System.Drawing.Size(112, 30);
             this.captureBn.TabIndex = 3;
-            this.captureBn.Text = "Capture";
+            this.captureBn.Text = "Single Frame";
             this.captureBn.UseVisualStyleBackColor = true;
             this.captureBn.Click += new System.EventHandler(this.captureBn_Click);
             // 
@@ -261,11 +261,24 @@
             this.connectBn.UseVisualStyleBackColor = true;
             this.connectBn.Click += new System.EventHandler(this.connectBn_Click);
             // 
+            // videoBn
+            // 
+            this.videoBn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.videoBn.Location = new System.Drawing.Point(663, 661);
+            this.videoBn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.videoBn.Name = "videoBn";
+            this.videoBn.Size = new System.Drawing.Size(112, 30);
+            this.videoBn.TabIndex = 7;
+            this.videoBn.Text = "Video";
+            this.videoBn.UseVisualStyleBackColor = true;
+            this.videoBn.Click += new System.EventHandler(this.videoBn_Click);
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(905, 702);
+            this.Controls.Add(this.videoBn);
             this.Controls.Add(this.connectBn);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.ipTb);
@@ -310,6 +323,7 @@
         private System.Windows.Forms.TextBox ipTb;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button connectBn;
+        private System.Windows.Forms.Button videoBn;
 
     }
 }

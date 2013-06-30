@@ -16,11 +16,18 @@ namespace SatelliteClient
     public partial class Window : Form
     {
         bool _bConnected;
+        System.Timers.Timer _captureTimer;
+        System.Timers.Timer _updateTimer;
+        ChannelFactory<SatelliteServer.ISatService> _scf;
+        SatelliteServer.ISatService _satService;
+
         public Window()
         {
             InitializeComponent();
+            _captureTimer = new System.Timers.Timer(250);
             _updateTimer = new System.Timers.Timer(50);
             _updateTimer.Elapsed += _updateTimer_Elapsed;
+            _captureTimer.Elapsed += _captureTimer_Elapsed;
 
             
 
@@ -37,11 +44,27 @@ namespace SatelliteClient
             _bConnected = false;
         }
 
+        void _captureTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _captureTimer.Enabled = false;
+            if (_bConnected)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    captureBn.Enabled = false;
+                    pictureBox.Image = _satService.Capture();
+                    captureBn.Enabled = true;
+                }));
+            }
+            _captureTimer.Enabled = true;
+        }
+
 
 
         void _updateTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            this.BeginInvoke(new Action(() =>
+            _updateTimer.Enabled = false;
+            this.Invoke(new Action(() =>
             {
                 if (_bConnected)
                 {
@@ -66,10 +89,12 @@ namespace SatelliteClient
                     //}
                 }
             }));
+            _updateTimer.Enabled = true;
         }
 
         private void captureBn_Click(object sender, EventArgs e)
         {
+            _captureTimer.Enabled = false;
             if (_bConnected)
             {
                 captureBn.Enabled = false;
@@ -82,7 +107,7 @@ namespace SatelliteClient
             }
         }
       
-        System.Timers.Timer _updateTimer;
+        
 
         private void Window_Load(object sender, EventArgs e)
         {
@@ -90,8 +115,7 @@ namespace SatelliteClient
             ipTb.Text = Settings.Default["IP"].ToString();
         }
 
-        ChannelFactory<SatelliteServer.ISatService> _scf;
-        SatelliteServer.ISatService _satService;
+        
 
         private void connectBn_Click(object sender, EventArgs e)
         {
@@ -160,6 +184,11 @@ namespace SatelliteClient
                     _satService.SetServoPos(1, yawTrackBar.Value);
                 }));
             }
+        }
+
+        private void videoBn_Click(object sender, EventArgs e)
+        {
+            _captureTimer.Enabled = true;
         }
     }
 }
