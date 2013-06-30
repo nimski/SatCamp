@@ -97,8 +97,8 @@ namespace SatelliteServer
                 // If an arbitrary AOI is supported -> take maximum sensor size
                 if (bAOISupported)
                 {
-                    x = sensorInfo.nMaxWidth;
-                    y = sensorInfo.nMaxHeight;
+                    x = 640;// sensorInfo.nMaxWidth;
+                    y = 480;// sensorInfo.nMaxHeight;
                 }
                 // Take the image size of the current image format
                 else

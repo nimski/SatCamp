@@ -46,10 +46,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="UsbWrapper, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Visual Studio 2012\Projects\SatelliteServer\UsbWrapper.dll</HintPath>
+      <HintPath>.\UsbWrapper.dll</HintPath>
     </Reference>
     <Reference Include="Usc">
-      <HintPath>..\Usc.dll</HintPath>
+      <HintPath>.\Usc.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
