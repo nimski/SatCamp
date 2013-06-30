@@ -30,24 +30,24 @@ namespace SatelliteServer
             }
         }
 
-        void SetStabilization(bool active)
+        public void SetStabilization(bool active)
         {
             _bStabilizationActive = active;
             _bStabilizationChanged = true;
         }
 
-        bool GetStablizationActive()
+        public bool GetStablizationActive()
         {
             return _bStabilizationActive;
         }
 
-        void SetServoPos(int channel, int val)
+        public void SetServoPos(int channel, int val)
         {
             _servoPos[channel] = val;
             _servoChanged[channel] = true;
         }
 
-        int GetServoPos(int channel)
+        public int GetServoPos(int channel)
         {
             return _servoPos[channel];
         }
