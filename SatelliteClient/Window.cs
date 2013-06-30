@@ -25,9 +25,10 @@ namespace SatelliteClient
             binding.MaxReceivedMessageSize = 20000000;
             binding.MaxBufferPoolSize = 20000000;
             binding.MaxBufferSize = 20000000;
+            binding.Security.Mode = SecurityMode.None;
             _scf = new ChannelFactory<SatelliteServer.ISatService>(
                         binding,
-                        "net.tcp://192.168.1.136:8000");
+                        "net.tcp://192.168.1.137:8000");
            
             _satService = _scf.CreateChannel();
 

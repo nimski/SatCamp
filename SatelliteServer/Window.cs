@@ -34,6 +34,7 @@ namespace SatelliteServer
             binding.MaxReceivedMessageSize = 20000000;
             binding.MaxBufferPoolSize = 20000000;
             binding.MaxBufferSize = 20000000;
+            binding.Security.Mode = SecurityMode.None;
             _host = new ServiceHost(new SatService(_cameraDriver));
             _host.AddServiceEndpoint(typeof(ISatService),
                                    binding,
