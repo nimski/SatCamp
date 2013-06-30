@@ -18,6 +18,38 @@ namespace SatelliteServer
             _camEvent = new AutoResetEvent(false);
             _camDriver = camDriver;
             _camDriver.CameraCapture += _camDriver_CameraCapture;
+
+            _bStabilizationChanged = false;
+
+            _servoPos = new int[10];
+            _servoChanged = new bool[10];
+            for (int ii = 0; ii < 10; ii++)
+            {
+                _servoPos[ii] = 6000;
+                _servoChanged[ii] = false;
+            }
+        }
+
+        void SetStabilization(bool active)
+        {
+            _bStabilizationActive = active;
+            _bStabilizationChanged = true;
+        }
+
+        bool GetStablizationActive()
+        {
+            return _bStabilizationActive;
+        }
+
+        void SetServoPos(int channel, int val)
+        {
+            _servoPos[channel] = val;
+            _servoChanged[channel] = true;
+        }
+
+        int GetServoPos(int channel)
+        {
+            return _servoPos[channel];
         }
 
         void _camDriver_CameraCapture(object sender, Bitmap b)
@@ -56,26 +88,14 @@ namespace SatelliteServer
 
             _captureStream.Seek(0, SeekOrigin.Begin);
             _camImage.Save(_captureStream, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-            //if (_captureBmp == null)
-            //{
-            //    //_captureBmp = new Bitmap(m_uc480.GetDisplayWidth(), m_uc480.GetDisplayHeight());
-            //    _captureBmp = (Bitmap)Bitmap.FromStream(_captureStream);
-            //}
             Bitmap b = (Bitmap)Bitmap.FromStream(_captureStream);
-
-            //Bitmap b = new Bitmap(_camImage.Width,_camImage.Height);
-            //Graphics g = Graphics.FromImage(b);
-            //g.DrawImage(_camImage, new Point(0, 0));
-            //g.Dispose();
-
-            return b;
-            //}else{
-            //    return new Bitmap(1,1);
-            //}
-            
+            return b;            
         }
 
+        public int[] _servoPos;
+        public bool[] _servoChanged;
+        public bool _bStabilizationChanged;
+        public  bool _bStabilizationActive;
         MemoryStream _captureStream;
         Bitmap _camImage;
         AutoResetEvent _camEvent;

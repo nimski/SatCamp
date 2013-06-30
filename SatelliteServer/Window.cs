@@ -16,12 +16,25 @@ namespace SatelliteServer
 {
     public partial class Window : Form
     {
+        Um6Driver _um6Driver;
+        CameraDriver _cameraDriver;
+        ServoDriver _servoDriver;
+        SatService _service;
+        ServiceHost _host;
+        ushort _lastPitchVal;
+        ushort _lastYawVal;
+        System.Timers.Timer _updateTimer;
+        double _stabPitch, _stabYaw;
+        int _stabPitchServo, _stabYawServo;
+
+        const double PitchAngleCoefficient = 11.11;
+
         public Window()
         {
             InitializeComponent();
-            //_um6Driver = new Um6Driver("COM1", 115200);
-            //_um6Driver.Init();
-            //_servoDriver = new ServoDriver();
+            _um6Driver = new Um6Driver("COM1", 115200);
+            _um6Driver.Init();
+            _servoDriver = new ServoDriver();
             _updateTimer = new System.Timers.Timer(50);
             _updateTimer.Elapsed += _updateTimer_Elapsed;           
             _cameraDriver = new CameraDriver(this.Handle.ToInt64());
@@ -35,11 +48,17 @@ namespace SatelliteServer
             binding.MaxBufferPoolSize = 20000000;
             binding.MaxBufferSize = 20000000;
             binding.Security.Mode = SecurityMode.None;
-            _host = new ServiceHost(new SatService(_cameraDriver));
+            _service = new SatService(_cameraDriver);
+            _host = new ServiceHost(_service);
             _host.AddServiceEndpoint(typeof(ISatService),
                                    binding,
                                    "net.tcp://localhost:8000");
             _host.Open();
+
+            _stabPitch = 0;
+            _stabYaw = 0;
+            _stabPitchServo = 6000;
+            _stabYawServo = 6000; 
         }
 
 
@@ -55,6 +74,25 @@ namespace SatelliteServer
                     tbYaw.Text = _um6Driver.Angles[2].ToString();
                 }
 
+                if (_service._servoChanged[0] == true)
+                {
+                    pitchTrackBar.Value = _service._servoPos[0];
+                    _service._servoChanged[0] = false;
+                }
+
+                if (_service._servoChanged[1] == true)
+                {
+                    yawTrackBar.Value = _service._servoPos[1];
+                    _service._servoChanged[1] = false;
+                }
+
+                if (_service._bStabilizationChanged)
+                {
+                    stabilizeCb.Checked = _service._bStabilizationActive;
+                    _service._bStabilizationChanged = false;
+                }
+                _service._bStabilizationActive = stabilizeCb.Checked;
+
                 if (_servoDriver != null)
                 {
                     if (pitchTrackBar.Value != _lastPitchVal)
@@ -69,7 +107,18 @@ namespace SatelliteServer
                         _lastYawVal = (ushort)yawTrackBar.Value;
                     }
                 }
-            }));
+
+                // do stabilization if necessary
+                if (stabilizeCb.Checked)
+                {
+                    // calculate angle differences
+                    double dPitch = _um6Driver.Angles[1] - _stabPitch;
+                    pitchTrackBar.Value = _stabPitchServo + (int)(dPitch * PitchAngleCoefficient);
+
+                    double dYaw = _um6Driver.Angles[2] - _stabYaw;
+                    pitchTrackBar.Value = _stabYawServo + (int)(dYaw * PitchAngleCoefficient);
+                }
+            }));           
         }
 
         private void captureBn_Click(object sender, EventArgs e)
@@ -99,13 +148,7 @@ namespace SatelliteServer
             pictureBox.Image = b;
         }
 
-        Um6Driver _um6Driver;
-        CameraDriver _cameraDriver;
-        ServoDriver _servoDriver;
-        ServiceHost _host;
-        ushort _lastPitchVal;
-        ushort _lastYawVal;
-        System.Timers.Timer _updateTimer;
+        
 
         private void Window_Load(object sender, EventArgs e)
         {
@@ -132,6 +175,17 @@ namespace SatelliteServer
                 }
             }
             ipLabel.Text = "IP Address: " + localIP;
+        }
+
+        private void stabilizeCb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (stabilizeCb.Checked == true)
+            {
+                _stabPitch = _um6Driver.Angles[1];
+                _stabYaw = _um6Driver.Angles[2];
+                _stabPitchServo = pitchTrackBar.Value;
+                _stabYawServo = yawTrackBar.Value;
+            }
         }
         
     }

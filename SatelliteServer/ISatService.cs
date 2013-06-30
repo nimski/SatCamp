@@ -12,7 +12,16 @@ namespace SatelliteServer
     public interface ISatService
     {
         [OperationContract]
-        string Ping(string name);
+        void SetStabilization(bool active);
+
+        [OperationContract]
+        bool GetStablizationActive();
+
+        [OperationContract]
+        void SetServoPos(int channel, int val);
+
+        [OperationContract]
+        int GetServoPos(int channel);
 
         [OperationContract]
         Bitmap Capture(); 
