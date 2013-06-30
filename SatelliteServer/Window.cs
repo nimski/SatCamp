@@ -159,12 +159,14 @@ namespace SatelliteServer
                     {
                         _servoDriver.SetServo((Byte)1, (ushort)pitchTrackBar.Value);
                         _lastPitchVal = (ushort)pitchTrackBar.Value;
+                        _service._servoPos[0] = pitchTrackBar.Value;
                     }
 
                     if (yawTrackBar.Value != _lastYawVal)
                     {
                         _servoDriver.SetServo((Byte)0, (ushort)yawTrackBar.Value);
                         _lastYawVal = (ushort)yawTrackBar.Value;
+                        _service._servoPos[1] = yawTrackBar.Value;
                     }
                 }
 

@@ -15,6 +15,7 @@ namespace SatelliteClient
 {
     public partial class Window : Form
     {
+        bool _bConnected;
         public Window()
         {
             InitializeComponent();
@@ -33,6 +34,7 @@ namespace SatelliteClient
             //    Console.WriteLine("CLIENT - Response from service: " + response);
             //}
             //(_satService as ICommunicationObject).Close();
+            _bConnected = false;
         }
 
 
@@ -41,30 +43,43 @@ namespace SatelliteClient
         {
             this.BeginInvoke(new Action(() =>
             {
-                double[] euler = _satService.GetEulerAngles();
-                tbRoll.Text = euler[0].ToString();
-                tbPitch.Text = euler[1].ToString();
-                tbYaw.Text = euler[2].ToString();
-                //if (_um6Driver != null)
-                //{
-                //    tbRoll.Text = _um6Driver.Angles[0].ToString();
-                //    tbPitch.Text = _um6Driver.Angles[1].ToString();
-                //    tbYaw.Text = _um6Driver.Angles[2].ToString();
-                //}
+                if (_bConnected)
+                {
+                    double[] euler = _satService.GetEulerAngles();
+                    tbRoll.Text = euler[0].ToString();
+                    tbPitch.Text = euler[1].ToString();
+                    tbYaw.Text = euler[2].ToString();
 
-                //if (_servoDriver != null)
-                //{
-                //    _servoDriver.SetServo((Byte)0, (ushort)pitchTrackBar.Value);
-                //    _servoDriver.SetServo((Byte)1, (ushort)yawTrackBar.Value);
-                //}
+                    pitchTrackBar.Value = _satService.GetServoPos(0);
+                    yawTrackBar.Value = _satService.GetServoPos(1);
+                    //if (_um6Driver != null)
+                    //{
+                    //    tbRoll.Text = _um6Driver.Angles[0].ToString();
+                    //    tbPitch.Text = _um6Driver.Angles[1].ToString();
+                    //    tbYaw.Text = _um6Driver.Angles[2].ToString();
+                    //}
+
+                    //if (_servoDriver != null)
+                    //{
+                    //    _servoDriver.SetServo((Byte)0, (ushort)pitchTrackBar.Value);
+                    //    _servoDriver.SetServo((Byte)1, (ushort)yawTrackBar.Value);
+                    //}
+                }
             }));
         }
 
         private void captureBn_Click(object sender, EventArgs e)
         {
-            captureBn.Enabled = false;
-            pictureBox.Image = _satService.Capture();
-            captureBn.Enabled = true;
+            if (_bConnected)
+            {
+                captureBn.Enabled = false;
+                pictureBox.Image = _satService.Capture();
+                captureBn.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Please connect to the server first.");
+            }
         }
       
         System.Timers.Timer _updateTimer;
@@ -100,9 +115,11 @@ namespace SatelliteClient
             {
                 connectBn.Enabled = true;
                 MessageBox.Show("Failed to connect to server: " + ex.Message);
+                _bConnected = false;
                 return;
             }
 
+            _bConnected = true;
             connectBn.Enabled = false;
         }
 
@@ -114,26 +131,35 @@ namespace SatelliteClient
 
         private void stabilizeCb_CheckedChanged(object sender, EventArgs e)
         {
-            this.BeginInvoke(new Action(() =>
+            if (_bConnected)
             {
-                _satService.SetStabilization(stabilizeCb.Checked);
-            }));
+                this.BeginInvoke(new Action(() =>
+                {
+                    _satService.SetStabilization(stabilizeCb.Checked);
+                }));
+            }
         }
 
         private void pitchTrackBar_Scroll(object sender, EventArgs e)
         {
-            this.BeginInvoke(new Action(() =>
+            if (_bConnected)
             {
-                _satService.SetServoPos(0,pitchTrackBar.Value);
-            }));
+                this.BeginInvoke(new Action(() =>
+                {
+                    _satService.SetServoPos(0, pitchTrackBar.Value);
+                }));
+            }
         }
 
         private void yawTrackBar_Scroll(object sender, EventArgs e)
         {
-            this.BeginInvoke(new Action(() =>
+            if (_bConnected)
             {
-                _satService.SetServoPos(1, yawTrackBar.Value);
-            }));
+                this.BeginInvoke(new Action(() =>
+                {
+                    _satService.SetServoPos(1, yawTrackBar.Value);
+                }));
+            }
         }
     }
 }
