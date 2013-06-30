@@ -97,13 +97,13 @@ namespace SatelliteServer
                 {
                     if (pitchTrackBar.Value != _lastPitchVal)
                     {
-                        _servoDriver.SetServo((Byte)0, (ushort)pitchTrackBar.Value);
+                        _servoDriver.SetServo((Byte)1, (ushort)pitchTrackBar.Value);
                         _lastPitchVal = (ushort)pitchTrackBar.Value;
                     }
 
                     if (yawTrackBar.Value != _lastYawVal)
                     {
-                        _servoDriver.SetServo((Byte)1, (ushort)yawTrackBar.Value);
+                        _servoDriver.SetServo((Byte)0, (ushort)yawTrackBar.Value);
                         _lastYawVal = (ushort)yawTrackBar.Value;
                     }
                 }
@@ -113,10 +113,10 @@ namespace SatelliteServer
                 {
                     // calculate angle differences
                     double dPitch = _um6Driver.Angles[1] - _stabPitch;
-                    pitchTrackBar.Value = _stabPitchServo + (int)(dPitch * PitchAngleCoefficient);
+                    pitchTrackBar.Value = _stabPitchServo - (int)(dPitch * PitchAngleCoefficient);
 
                     double dYaw = _um6Driver.Angles[2] - _stabYaw;
-                    pitchTrackBar.Value = _stabYawServo + (int)(dYaw * PitchAngleCoefficient);
+                    yawTrackBar.Value = _stabYawServo - (int)(dYaw * PitchAngleCoefficient);
                 }
             }));           
         }
