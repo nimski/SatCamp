@@ -131,6 +131,7 @@ namespace SatelliteServer
                     tbRoll.Text = _um6Driver.Angles[0].ToString();
                     tbPitch.Text = _um6Driver.Angles[1].ToString();
                     tbYaw.Text = _um6Driver.Angles[2].ToString();
+                    _service._eulerAngles = new double[3] { _um6Driver.Angles[0], _um6Driver.Angles[1], _um6Driver.Angles[2] };
                 }
 
                 if (_service._servoChanged[0] == true)

@@ -24,6 +24,9 @@ namespace SatelliteServer
         int GetServoPos(int channel);
 
         [OperationContract]
+        double[] GetEulerAngles();
+
+        [OperationContract]
         Bitmap Capture(); 
     }
 }

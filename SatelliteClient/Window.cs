@@ -41,6 +41,10 @@ namespace SatelliteClient
         {
             this.BeginInvoke(new Action(() =>
             {
+                double[] euler = _satService.GetEulerAngles();
+                tbRoll.Text = euler[0].ToString();
+                tbPitch.Text = euler[1].ToString();
+                tbYaw.Text = euler[2].ToString();
                 //if (_um6Driver != null)
                 //{
                 //    tbRoll.Text = _um6Driver.Angles[0].ToString();

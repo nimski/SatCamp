@@ -41,6 +41,11 @@ namespace SatelliteServer
             return _bStabilizationActive;
         }
 
+        public double[] GetEulerAngles()
+        {
+            return _eulerAngles;
+        }
+
         public void SetServoPos(int channel, int val)
         {
             _servoPos[channel] = val;
@@ -92,6 +97,7 @@ namespace SatelliteServer
             return b;            
         }
 
+        public double[] _eulerAngles;
         public int[] _servoPos;
         public bool[] _servoChanged;
         public bool _bStabilizationChanged;
