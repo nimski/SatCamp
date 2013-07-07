@@ -14,9 +14,24 @@ namespace SatelliteClient
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Window());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new Window());
+            }
+            catch (Exception e)
+            {
+                string message = "";
+                Exception ex = e;
+                while (ex != null)
+                {
+                    message = message + ex.Message + "  ";
+                    ex = ex.InnerException;
+                }
+                MessageBox.Show("Error: " + message);
+            }
+
         }
     }
 }
