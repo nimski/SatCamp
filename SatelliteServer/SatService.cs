@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Drawing;
 using System.Threading;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace SatelliteServer
 {
@@ -92,12 +93,23 @@ namespace SatelliteServer
                 _captureStream = new MemoryStream();
             }
 
+            ImageCodecInfo jpgEncoder = ImageCodecInfo.GetImageEncoders().Single(x => x.FormatDescription == "JPEG");
+            System.Drawing.Imaging.Encoder encoder2 = System.Drawing.Imaging.Encoder.Quality;
+            EncoderParameters parameters = new System.Drawing.Imaging.EncoderParameters(1);
+            EncoderParameter parameter = new EncoderParameter(encoder2, 50L);
+            parameters.Param[0] = parameter;
+
+            
             _captureStream.Seek(0, SeekOrigin.Begin);
-            _camImage.Save(_captureStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            _camImage.Save(_captureStream, jpgEncoder, parameters);
+            //_camImage.Save(_captureStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             byte[] buffer = new byte[_captureStream.Length];
-            _captureStream.Read(buffer,0,(int)_captureStream.Length);
+            Console.WriteLine("Sending image with size " + buffer.Length);
+            //_captureStream.Read(buffer,0,(int)_captureStream.Length);
+            buffer = _captureStream.ToArray();
+
             return buffer;
-            //Bitmap b = (Bitmap)Bitmap.FromStream(_captureStream);
+            
             //return b;            
         }
 
