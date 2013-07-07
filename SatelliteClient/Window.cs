@@ -102,8 +102,13 @@ namespace SatelliteClient
             if (_bConnected)
             {
                 captureBn.Enabled = false;
-                pictureBox.Image = _satService.Capture();
-                captureBn.Enabled = true;
+                byte[] buffer = _satService.Capture();
+                Console.Write("Received image with " + buffer.Length + " bytes.");
+                using (MemoryStream stream = new MemoryStream(buffer))
+                {
+                    pictureBox.Image = Bitmap.FromStream(stream);
+                    captureBn.Enabled = true;
+                }
             }
             else
             {
